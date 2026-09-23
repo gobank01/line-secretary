@@ -129,6 +129,11 @@ async function handle(ev) {
   const answer = await think(state, text, ctx);
   await save(sourceId, state);
   await q('update messages set processed_at = now() where id = $1', [msgId]);
+  // GROUP_SILENT=1 = บอทไม่พูดในกลุ่มเลย — เจ้าของเรียกในกลุ่ม คำตอบไปเข้าแชทส่วนตัวแทน (กิน push 1 ข้อความ)
+  if (!isDirect && process.env.GROUP_SILENT === '1') {
+    const { rows: [g] } = await q('select title from watched where source_id = $1', [sourceId]);
+    return push(src.userId, `💬 จากกลุ่ม ${g?.title || ''}\n\n${answer}`);
+  }
   await reply(ev.replyToken, ev.message.type === 'audio' ? `🎙 "${text}"\n\n${answer}` : answer);
 }
 
