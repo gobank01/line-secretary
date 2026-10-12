@@ -121,7 +121,7 @@ export default async function Dashboard({ searchParams }) {
         </Section>
       </div>
 
-      <Section title="กลุ่มที่เฝ้าอยู่" icon="👀" count={groups.length} empty={!groups.length} emptyText="เชิญคิมเข้ากลุ่มได้เลย">
+      <Section title="กลุ่มที่เฝ้าอยู่" icon="👀" count={groups.length} empty={!groups.length} emptyText={`เชิญ${process.env.BOT_NAME || 'เลขา'}เข้ากลุ่มได้เลย`}>
         <div className="table">
           <div className="tr th">
             <span>กลุ่ม</span><span>ข้อความ</span><span>24 ชม.</span><span>รายงาน</span><span>ล่าสุด</span>
